@@ -26,5 +26,6 @@ router.registry.extend(todo_router.registry) # ajout des routes de todo_router d
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
+    path('api-auth/', include('dj_rest_auth.urls')),
+    path('', include(router.urls)),
 ]
