@@ -17,15 +17,37 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include 
 
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+
 from rest_framework import routers
+from rest_framework import permissions
 
 from todo.urls import router as todo_router
+from user_management.urls import router as user_management_router
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Todo API",
+      default_version='v1',
+      description="Cette API permet de gérer des todos",
+      contact=openapi.Contact(email="mokonan99@gmail.com"),
+      license=openapi.License(name="BSD License"),
+   ),
+   public=False,
+   permission_classes=(permissions.AllowAny,),
+)
 
 router = routers.DefaultRouter()
 router.registry.extend(todo_router.registry) # ajout des routes de todo_router dans router
+router.registry.extend(user_management_router.registry)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('dj_rest_auth.urls')),
     path('', include(router.urls)),
+    
+    path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]

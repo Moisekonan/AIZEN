@@ -39,10 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     'todo',
-    'user_management'
+    'user_management',
     'rest_framework',
     'rest_framework.authtoken',
     'dj_rest_auth',
+    'drf_yasg',
     'corsheaders',
     'django_filters'
 ]
@@ -146,3 +147,11 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://localhost:4200",
 ]    
+
+CORS_ALLOW_CREDENTIALS = True
+ACCOUNT_LOGOUT_ON_GET = True
+
+SWAGGER_SETTINGS = {
+    'LOGIN_URL': '/admin/login/',
+    'LOGOUT_URL': '/admin/logout/',
+}    
